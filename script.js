@@ -5,23 +5,32 @@ const gameboard = (() => {
     let o = 'O';
     let e = ' ';
     let gameBoard = [[x, e, o], [x, e, o], [o, x, e]];
-    const flatBoard = gameBoard.flat();
+    let flatBoard = gameBoard.flat();
     
     const get = () => gameBoard;
-    const play = (i, j, move) => gameBoard[i][j] = move;
+    const play = (i, j, move) => {
+        gameBoard[i][j] = move;
+        flatBoard = gameBoard.flat();
+        gameboard.render();
+    };
+
     const reset = () => {
         gameBoard = [[e ,e ,e ,], [e ,e ,e ,], [e ,e ,e ,]];
+        flatBoard = gameBoard.flat();
+        gameboard.render();
         
     }
 
     const clearBoard = () => {
         for (let i = 0; i < flatBoard.length; i++) {
             let cell = document.querySelector(`.gameboard :nth-child(${i+1}) > p`);
+            if(cell ==null) return;
             cell.remove();
         }
     }
 
-    const render = () => {
+    const render = function () {
+        clearBoard();
         for (let i = 0; i < flatBoard.length; i++) {
             let cell = document.querySelector(`.gameboard :nth-child(${i+1})`);
             let value = document.createElement('p');
@@ -37,7 +46,7 @@ const gameboard = (() => {
         }
     } */
 
-    return{get, play, reset, render, /* playerMove */ clearBoard};
+    return{get, play, reset, render, /* playerMove */};
 })();
 
 gameboard.render();
