@@ -1,16 +1,29 @@
 const gameboard = (() => {
-
     let e = ' ';
     let gameBoard = [e ,e ,e , e ,e ,e , e ,e ,e ];
+    let player = 'X';
+    let status = 'playing';
+    let cells = document.querySelectorAll('.gameboard > div')
+
+
+    for(let i = 0; i < cells.length; i++) {
+        let cell = cells[i];
+        cell.addEventListener('click', function() { 
+            if (cell.textContent.match(' ') && status == 'playing') {
+            play(i, player);
+            }
+        });
+    }
 
     const get = () => gameBoard.slice();
-
     const play = (i, move) => {
         gameBoard[i] = move;
+        togglePlayer();
         render();
+        if(checkWin()) console.log('win');
     };
 
-    const resetGame = () => {
+    const reset = () => {
         gameBoard = [e ,e ,e , e ,e ,e , e ,e ,e ];
         render();
     }
@@ -32,29 +45,7 @@ const gameboard = (() => {
             cell.appendChild(value);
         }
     }
-    render();
-    return{get, play, resetGame};
-    
-})();
 
-
-const game = (() => {
-    
-    let player = 'X';
-    let cells = document.querySelectorAll('.gameboard > div')
-    
-    for(let i = 0; i < cells.length; i++) {
-        let cell = cells[i];
-        console.log(cell);
-        cell.addEventListener('click', function() { 
-            if (cell.textContent.match(' ')) {
-            gameboard.play(i, player);
-            /* checkWin(); */
-            togglePlayer();
-            }
-        });
-    }
-   
     function togglePlayer() {
         if(player == 'X') {
             player = 'O';
@@ -63,36 +54,48 @@ const game = (() => {
         }
     }
 
-    
     const gameBoard2D = () => {
-        let gameBoard = gameboard.get();
+        let arr = gameBoard.slice()
         let newArr = [];
-        while(gameBoard.length) {
-            newArr.push(gameBoard.splice(0,3));
+        while(arr.length) {
+            newArr.push(arr.splice(0,3));
         }
         return newArr;
     };
 
-    /* const checkWin = () => {
+    const checkWin = () => {
         let b = gameBoard2D();
-
-        let w = 0;
-        for (let i = 0; i < 3; i++) {
-            let rowCheck = b[i][0];
-            for (let j = 0; j < 3; j++) {
-                if (rowCheck != b[i][j]) {
-                    break;
-                }
-                return (player);
-            }
-            
-        }
-            console.log(player);
+        let d1 = [];
+        let d2 = [];
         
-    } */
+        for (let i = 0; i < 3; i++) {
+            let row = b[i];
+            let col = b.map((x) => x[i]);
+            if(win(col) || win(row)) return 1;
 
+            for (let j = 0; j < 3; j++) {
+                if (i == j) d1.push(b[i][j]);
+                if( i+j == 2) d2.push(b[i][j]);
+            }
+        }
+
+        if(win(d1) || win(d2)) return 1;
+
+        function win(arr) {
+                if( arr[0] == ' ') return 0;
+                if(arr.every( v => v === arr[0]) ){
+                    return 1;
+                }
+        }
+        
+    }
+
+
+    render();
+    return{ play, reset, gameBoard2D};
     
 })();
+
 
 const Player = (name) => {
     let points = 0;
