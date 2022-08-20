@@ -1,4 +1,8 @@
 
+* {
+    margin: 0px;
+}
+
 /* main area style */
 
 .main {
@@ -16,6 +20,13 @@
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
 
+.cell {
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .cell:nth-child(3n+2){
     border-left: 1px solid black;
     border-right: 1px solid black;
@@ -29,4 +40,3 @@
     padding-top: 1px;
     padding-bottom: 1px;
 }
-
