@@ -15,16 +15,24 @@ const gameboard = (() => {
         });
     }
 
-    const get = () => gameBoard.slice();
     const play = (i, move) => {
         gameBoard[i] = move;
-        togglePlayer();
         render();
-        if(checkWin()) console.log('win');
+        if(checkWin() == 1) {
+            status = 'stop';
+            console.log(player);
+        }
+        if(checkWin() == 2) {
+            status = 'stop';
+            console.log('tie');
+        }
+        togglePlayer();
     };
 
     const reset = () => {
         gameBoard = [e ,e ,e , e ,e ,e , e ,e ,e ];
+        player = 'X';
+        status = 'playing';
         render();
     }
 
@@ -67,6 +75,7 @@ const gameboard = (() => {
         let b = gameBoard2D();
         let d1 = [];
         let d2 = [];
+        let tie = 1;
         
         for (let i = 0; i < 3; i++) {
             let row = b[i];
@@ -76,18 +85,20 @@ const gameboard = (() => {
             for (let j = 0; j < 3; j++) {
                 if (i == j) d1.push(b[i][j]);
                 if( i+j == 2) d2.push(b[i][j]);
+                if(b[i][j] == ' ') tie = 0;
             }
         }
 
         if(win(d1) || win(d2)) return 1;
 
         function win(arr) {
-                if( arr[0] == ' ') return 0;
-                if(arr.every( v => v === arr[0]) ){
-                    return 1;
-                }
+            if( arr[0] == ' ') return 0;
+            if(arr.every( v => v === arr[0]) ){
+                return 1;
+            }
         }
-        
+
+        if(tie) return 2;
     }
 
 
