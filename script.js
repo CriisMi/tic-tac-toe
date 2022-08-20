@@ -1,28 +1,22 @@
-
-
 const gameboard = (() => {
-    let x = 'X';
-    let o = 'O';
+
     let e = ' ';
-    let gameBoard = [[x, e, o], [x, e, o], [o, x, e]];
-    let flatBoard = gameBoard.flat();
-    
-    const get = () => gameBoard;
-    const play = (i, j, move) => {
-        gameBoard[i][j] = move;
-        flatBoard = gameBoard.flat();
-        gameboard.render();
+    let gameBoard = [e ,e ,e , e ,e ,e , e ,e ,e ];
+
+    const get = () => gameBoard.slice();
+
+    const play = (i, move) => {
+        gameBoard[i] = move;
+        render();
     };
 
-    const reset = () => {
-        gameBoard = [[e ,e ,e ,], [e ,e ,e ,], [e ,e ,e ,]];
-        flatBoard = gameBoard.flat();
-        gameboard.render();
-        
+    const resetGame = () => {
+        gameBoard = [e ,e ,e , e ,e ,e , e ,e ,e ];
+        render();
     }
 
-    const clearBoard = () => {
-        for (let i = 0; i < flatBoard.length; i++) {
+    const clear = () => {
+        for (let i = 0; i < gameBoard.length; i++) {
             let cell = document.querySelector(`.gameboard :nth-child(${i+1}) > p`);
             if(cell ==null) return;
             cell.remove();
@@ -30,26 +24,75 @@ const gameboard = (() => {
     }
 
     const render = function () {
-        clearBoard();
-        for (let i = 0; i < flatBoard.length; i++) {
+        clear();
+        for (let i = 0; i < gameBoard.length; i++) {
             let cell = document.querySelector(`.gameboard :nth-child(${i+1})`);
             let value = document.createElement('p');
-            value.textContent = flatBoard[i];
+            value.textContent = gameBoard[i];
             cell.appendChild(value);
         }
     }
-
-    /* const playerMove = () => {
-        for (let i = 0; i < flatBoard.length; i++) {
-            let cell = document.querySelector(`.gameboard :nth-child(${i+1})`);
-            cell.addEventListener('click', gameboard.play(1, 2, 'X'));
-        }
-    } */
-
-    return{get, play, reset, render, /* playerMove */};
+    render();
+    return{get, play, resetGame};
+    
 })();
 
-gameboard.render();
+
+const game = (() => {
+    
+    let player = 'X';
+    let cells = document.querySelectorAll('.gameboard > div')
+    
+    for(let i = 0; i < cells.length; i++) {
+        let cell = cells[i];
+        console.log(cell);
+        cell.addEventListener('click', function() { 
+            if (cell.textContent.match(' ')) {
+            gameboard.play(i, player);
+            /* checkWin(); */
+            togglePlayer();
+            }
+        });
+    }
+   
+    function togglePlayer() {
+        if(player == 'X') {
+            player = 'O';
+        } else {
+            player = 'X';
+        }
+    }
+
+    
+    const gameBoard2D = () => {
+        let gameBoard = gameboard.get();
+        let newArr = [];
+        while(gameBoard.length) {
+            newArr.push(gameBoard.splice(0,3));
+        }
+        return newArr;
+    };
+
+    /* const checkWin = () => {
+        let b = gameBoard2D();
+
+        let w = 0;
+        for (let i = 0; i < 3; i++) {
+            let rowCheck = b[i][0];
+            for (let j = 0; j < 3; j++) {
+                if (rowCheck != b[i][j]) {
+                    break;
+                }
+                return (player);
+            }
+            
+        }
+            console.log(player);
+        
+    } */
+
+    
+})();
 
 const Player = (name) => {
     let points = 0;
