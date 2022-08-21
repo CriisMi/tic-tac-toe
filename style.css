@@ -36,8 +36,8 @@ body {
 /* gameboard style */
 
 .gameboard {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
