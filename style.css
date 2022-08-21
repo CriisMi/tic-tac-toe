@@ -3,18 +3,34 @@
     margin: 0px;
 }
 
-/* main area style */
-
-.main,
-.nav {
+body {
+    margin: 0 30px;
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template: 100px auto / 1fr 3fr 1fr;
+    column-gap: 50px;
+    row-gap: 20px;
     justify-items: center;
 }
 
+.player {
+    align-self: flex-end;
+}
 .nav {
-    height: 100px;
     align-items: center;
+    justify-items: center;
+    display: grid;
+    grid-template: 1fr 1fr / 1fr 1fr;
+}
+
+.result {
+    grid-column: 1 / 3;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 15px;
+    align-content: flex-start;
 }
 
 /* gameboard style */
