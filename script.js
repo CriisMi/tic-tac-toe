@@ -1,22 +1,14 @@
 const gameboard = (() => {
-    let e = ' ';
-    let gameBoard = [e ,e ,e , e ,e ,e , e ,e ,e ];
+    let gameBoard = [' ' ,' ' ,' ' , ' ' ,' ' , ' ' ,' ' ,' ' ,' ' ];
     let player = 'X';
     let status = 'playing';
     let round = 1;
-    let result = document.querySelector('.result');
+
 
     let cells = document.querySelectorAll('.gameboard > div')
-
     let playButton = document.querySelector('.play > button');
-
-    playButton.addEventListener('click', function() {
-        if (status != 'playing') {
-            reset();
-            render();
-            console.log(gameBoard);
-        }
-    });
+    let restartButton = document.querySelector('.restart > button');
+    let result = document.querySelector('.result');
 
     for(let i = 0; i < cells.length; i++) {
         let cell = cells[i];
@@ -27,38 +19,52 @@ const gameboard = (() => {
         });
     }
 
-    function declareWinner(player) {
-        let winner = document.createElement('p');
-        if (player == 'tie') {
-            winner.textContent = `It's a tie`;
-        } else {
-            winner.textContent = `${player} wins!`;
+    playButton.addEventListener('click', function() {
+        if (status != 'playing') {
+            reset();
+            updateResults('round');            
+            render();
         }
-        result.appendChild(winner);
-    }
+    });
 
+    restartButton.addEventListener('click', function() { 
+        restartGame()
+        updateResults('restart');
+    })
+
+    function updateResults(update) {
+        result.firstChild.remove();
+        let display = document.createElement('p');
+        switch (update) {
+            case 'round' :
+                display.textContent = `Round ${++round}`;
+                break;
+            case 'restart':
+                display.textContent = `Round ${round}`;
+                break;
+            case 'tie':
+                display.textContent = `It's a tie`;
+                break;
+            default:
+                display.textContent = `${update} wins!`;
+                break;
+        }
+        
+        result.appendChild(display);
+    };
 
     const play = (i, move) => {
         gameBoard[i] = move;
         render();
         if(checkWin() == 1) {
             status = 'stop';
-            console.log(result);
-            declareWinner(player);
-        }
-        if(checkWin() == 2) {
+            updateResults(player);
+        } else if (checkWin() == 2) {
             status = 'stop';
-            declareWinner('tie');
+            updateResults('tie');
         }
         togglePlayer();
     };
-
-    const reset = () => {
-        gameBoard = [e ,e ,e , e ,e ,e , e ,e ,e ];
-        player = 'X';
-        status = 'playing';
-        render();
-    }
 
     function clear() {
         for (let i = 0; i < gameBoard.length; i++) {
@@ -66,6 +72,21 @@ const gameboard = (() => {
             if(cell ==null) return;
             cell.remove();
         }
+    }
+
+    function reset() {
+        gameBoard = [' ' ,' ' ,' ' ,' ' ,' ' ,' ' , ' ' ,' ' ,' ' ];
+        player = 'X';
+        status = 'playing';
+        render();
+    }
+
+    function restartGame() {
+        gameBoard = [' ' ,' ' ,' ' ,' ' ,' ' ,' ' , ' ' ,' ' ,' ' ];
+        player = 'X';
+        status = 'playing';
+        round = 1;
+        render();
     }
 
     const render = function () {
@@ -131,6 +152,10 @@ const gameboard = (() => {
     render();
     return{reset,clear};
     
+})();
+
+const game = (() => {
+
 })();
 
 
