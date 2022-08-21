@@ -4,8 +4,19 @@ const gameboard = (() => {
     let player = 'X';
     let status = 'playing';
     let round = 1;
+    let result = document.querySelector('.result');
+
     let cells = document.querySelectorAll('.gameboard > div')
 
+    let playButton = document.querySelector('.play > button');
+
+    playButton.addEventListener('click', function() {
+        if (status != 'playing') {
+            reset();
+            render();
+            console.log(gameBoard);
+        }
+    });
 
     for(let i = 0; i < cells.length; i++) {
         let cell = cells[i];
@@ -16,16 +27,28 @@ const gameboard = (() => {
         });
     }
 
+    function declareWinner(player) {
+        let winner = document.createElement('p');
+        if (player == 'tie') {
+            winner.textContent = `It's a tie`;
+        } else {
+            winner.textContent = `${player} wins!`;
+        }
+        result.appendChild(winner);
+    }
+
+
     const play = (i, move) => {
         gameBoard[i] = move;
         render();
         if(checkWin() == 1) {
             status = 'stop';
-            console.log(player);
+            console.log(result);
+            declareWinner(player);
         }
         if(checkWin() == 2) {
             status = 'stop';
-            console.log('tie');
+            declareWinner('tie');
         }
         togglePlayer();
     };
@@ -37,7 +60,7 @@ const gameboard = (() => {
         render();
     }
 
-    const clear = () => {
+    function clear() {
         for (let i = 0; i < gameBoard.length; i++) {
             let cell = document.querySelector(`.gameboard :nth-child(${i+1}) > p`);
             if(cell ==null) return;
@@ -103,8 +126,10 @@ const gameboard = (() => {
     }
 
 
+
+
     render();
-    return{reset};
+    return{reset,clear};
     
 })();
 
