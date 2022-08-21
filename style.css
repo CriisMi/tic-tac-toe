@@ -5,10 +5,16 @@
 
 /* main area style */
 
-.main {
+.main,
+.nav {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
     justify-items: center;
+}
+
+.nav {
+    height: 100px;
+    align-items: center;
 }
 
 /* gameboard style */

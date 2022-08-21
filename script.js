@@ -3,6 +3,7 @@ const gameboard = (() => {
     let gameBoard = [e ,e ,e , e ,e ,e , e ,e ,e ];
     let player = 'X';
     let status = 'playing';
+    let round = 1;
     let cells = document.querySelectorAll('.gameboard > div')
 
 
@@ -103,7 +104,7 @@ const gameboard = (() => {
 
 
     render();
-    return{ play, reset, gameBoard2D};
+    return{reset};
     
 })();
 
