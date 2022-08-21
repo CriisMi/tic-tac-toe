@@ -148,12 +148,12 @@ const gameboard = (() => {
     }
 
     function restartGame() {
-        let gameBoard = [' ' ,' ' ,' ' , ' ' ,' ' , ' ' ,' ' ,' ' ,' ' ];
-        let status = 'playing';
-        let round = 1;
-        let player1 = Player('Player1','X');
-        let player2 = Player('Player2', 'O');
-        let player = player1;
+        gameBoard = [' ' ,' ' ,' ' , ' ' ,' ' , ' ' ,' ' ,' ' ,' ' ];
+        status = 'playing';
+        round = 1;
+        player1 = Player('Player1','X');
+        player2 = Player('Player2', 'O');
+        player = player1;
         render();
     }
 
